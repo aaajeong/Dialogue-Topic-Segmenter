@@ -6,23 +6,26 @@ import random
 import itertools
 
 ###################### FOR DATALOADING ######################
+
 def load_txt(in_fname):
-    id2txt = {}
-    dup_dict = {}
-    dup_list = []
+    id2txt = {} # idx에 해당하는 발화
+    dup_dict = {}   # 중복되는 인덱스-발화 딕셔너리
+    dup_list = []   # 중복되는 발화의 인덱스 리스트
     with open(in_fname) as in_file:
-        for idx, line in enumerate(in_file):
+        for idx, line in enumerate(in_file):    # idx (인덱스), line (대화 텍스트)
             if line not in dup_dict.values():
+                # "__eou__ "로 분리 -> 각 발화 리스트
                 id2txt[idx] = [utterance.replace(" __eou__","") for utterance in line.strip().split(" __eou__ ")]
-                dup_dict[idx] = line
-            else:
-                dup_list.append(idx)
+                dup_dict[idx] = line    # "__eou__" 포함 대화 텍스트
+            else:   # 대화 텍스트가 존재하면, 중복
+                dup_list.append(idx)    # 중복 리스트에 인덱스 추가
     return id2txt, dup_list
 
 def load_act(in_fname, dup_list):
     id2act = {}
     with open(in_fname) as in_file:
         for idx, line in enumerate(in_file):
+            # 중복된 대화가 아니면, 인덱스-행동 딕셔너리에 추가
             if idx not in dup_list:
                 id2act[idx] = line.strip().split(" ")
     return id2act
@@ -31,6 +34,7 @@ def load_topic(in_fname, dup_list):
     id2topic = {}
     with open(in_fname) as in_file:
         for idx, line in enumerate(in_file):
+            # 중복된 대화가 아니면, 인덱스-토픽 딕셔너리에 추가
             if idx not in dup_list:
                 id2topic[idx] = int(line.strip())
     return id2topic
