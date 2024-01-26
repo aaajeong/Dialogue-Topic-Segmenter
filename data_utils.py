@@ -81,6 +81,7 @@ def pesudo_generation_for_one_sample(utterances, acts, topic, txt_dict, act_dict
                 negative_major_list = [sampled_utterances[i] for i in range(len(sampled_utterances)) if sampled_acts[i] != '1']
 
                 for u_n1, u_n2 in itertools.product(negtive_minor_list, negative_major_list):
+                    # neg1, neg2에 대해 모든 조합을 구함.
                     sample_triple_for_this_dial.append((anchor, postive, u_n1, u_n2))
                     
         # extract utterance triples (anchor, pos, neg_1, neg_2) for pattern Directives - Commissives (3 - 4)
@@ -99,6 +100,7 @@ def pesudo_generation_for_one_sample(utterances, acts, topic, txt_dict, act_dict
                 negative_major_list = [sampled_utterances[i] for i in range(len(sampled_utterances)) if sampled_acts[i] != '4']
 
                 for u_n1, u_n2 in itertools.product(negtive_minor_list, negative_major_list):
+                    # neg1, neg2에 대해 모든 조합을 구함.
                     sample_triple_for_this_dial.append((anchor, postive, u_n1, u_n2))
     
     return sample_triple_for_this_dial
